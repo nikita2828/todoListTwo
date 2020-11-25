@@ -1,0 +1,89 @@
+* {
+  box-sizing: border-box;
+}
+.wrapperApp {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.search {
+  width: 500px;
+  height: 50px;
+  border-radius: 50px;
+  font-size: 35px;
+  outline: none;
+  border: 3px solid #0000ff;
+  background-color: #0000ff78;
+  color: #ffffff;
+  margin-bottom: 10px;
+  padding-left: 20px;
+}
+
+.search:focus {
+  background-color: #0000ff;
+}
+
+.add_task_button {
+  position: absolute;
+  margin-left: -80px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 30px;
+  height: 50px;
+  color: #ffffff;
+  cursor: pointer;
+}
+.add_task_button:active {
+  color: #0000ff;
+}
+.task {
+  width: 500px;
+}
+.title_task {
+  display: inline;
+  font-size: 30px;
+  padding-left: 20px;
+  color: #0000ff;
+}
+.hr {
+  border: 1px solid #0000ff;
+  margin-top: 15px;
+}
+.checkbox_delete {
+  display: inline;
+  float: right;
+}
+.delete_task {
+  background-color: #0000ff78;
+  border: none;
+  outline: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.delete_task:active {
+  background-color: #0000ff;
+}
+.checkbox_title {
+  transform: scale(3);
+  margin-right: 15px;
+  cursor: pointer;
+}
+.delete_all_btn {
+  cursor: pointer;
+  font-size: 20px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: #0000ff78;
+  float: right;
+}
+.delete_all_btn:active {
+  color: #0000ff;
+}
