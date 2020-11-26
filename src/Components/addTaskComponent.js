@@ -31,13 +31,12 @@ export default class AddTask extends Component {
   }
 
   deleteItem(id) {
-    // const list = [];
-    this.setState({ list: [] });
+    const list = [...this.state.list];
+    const updatedList = list.filter((item) => item.id !== id);
+    this.setState({ list: updatedList });
   }
   deleteAllItem() {
-    const list = [...this.state.list];
-    const updatedList = list.filter((item) => (item = ""));
-    this.setState({ list: updatedList });
+    this.setState({ list: [] });
   }
   render() {
     return (
