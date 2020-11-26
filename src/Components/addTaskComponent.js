@@ -31,9 +31,8 @@ export default class AddTask extends Component {
   }
 
   deleteItem(id) {
-    const list = [...this.state.list];
-    const updatedList = list.filter((item) => item.id !== id);
-    this.setState({ list: updatedList });
+    // const list = [];
+    this.setState({ list: [] });
   }
   deleteAllItem() {
     const list = [...this.state.list];
