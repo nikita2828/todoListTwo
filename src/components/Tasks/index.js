@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 export default class Tasks extends Component {
   render() {
-    const { list, onDelete } = this.props;
+    const { list, onDelete, executedItem } = this.props;
     return (
       <div>
         <div className="task">
@@ -11,6 +11,12 @@ export default class Tasks extends Component {
               <div key={item.id}>
                 <p className="title_task">{item.value}</p>
                 <div className="checkbox_delete">
+                  <button
+                    onClick={() => executedItem(item.id)}
+                    className="delete_task"
+                  >
+                    &#10004;
+                  </button>
                   <button
                     onClick={() => onDelete(item.id)}
                     className="delete_task"

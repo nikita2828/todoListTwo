@@ -1,6 +1,6 @@
 import { Component } from "react";
-import AddTask from "./Components/addTaskComponent";
-import Search from "./Components/searchComponent";
+import AddTask from "./components/AddTask/index";
+import Search from "./components/Search/index";
 export default class App extends Component {
   constructor() {
     super();
