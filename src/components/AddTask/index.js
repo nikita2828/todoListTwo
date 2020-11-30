@@ -14,16 +14,14 @@ export default class AddTask extends Component {
       search: "",
     };
   }
+
   async componentDidMount() {
-    await fetch(LIST_URL)
-      .then((res) => res.json())
-      .then((lists) =>
-        this.setState({
-          list: lists,
-          inputValue: "",
-        })
-      );
+    const onLoadTodo = await fetch(LIST_URL).then((res) => res.json());
+    this.setState({
+      list: onLoadTodo,
+    });
   }
+
   async addItem() {
     const newItem = {
       id: new Date().getTime(),
@@ -37,14 +35,12 @@ export default class AddTask extends Component {
       },
       body: JSON.stringify(newItem),
     });
-    await fetch(LIST_URL)
-      .then((res) => res.json())
-      .then((lists) =>
-        this.setState({
-          list: lists,
-          inputValue: "",
-        })
-      );
+
+    const onLoadTodo = await fetch(LIST_URL).then((res) => res.json());
+    this.setState({
+      list: onLoadTodo,
+      inputValue: "",
+    });
   }
 
   async deleteItem(id) {
