@@ -9,7 +9,7 @@ export default class Search extends Component {
   }
   searchItems = (e) => {
     const { value } = e.target;
-    this.props.onSearch && this.props.onSearch(value);
+    this.props.onSearch(value);
   };
   render() {
     return (
