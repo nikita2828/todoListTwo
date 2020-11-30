@@ -1,6 +1,5 @@
 import { Component } from "react";
 import AddTask from "./components/AddTask/index";
-import Search from "./components/Search/index";
 export default class App extends Component {
   constructor() {
     super();
@@ -10,7 +9,6 @@ export default class App extends Component {
   render() {
     return (
       <div className="wrapperApp">
-        <Search />
         <AddTask />
       </div>
     );

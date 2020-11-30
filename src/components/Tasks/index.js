@@ -2,11 +2,11 @@ import React, { Component } from "react";
 
 export default class Tasks extends Component {
   render() {
-    const { list, onDelete, executedItem } = this.props;
+    const { onDelete, executedItem, listSearch } = this.props;
     return (
       <div>
         <div className="task">
-          {list.map((item) => {
+          {listSearch.map((item) => {
             return (
               <div key={item.id}>
                 <p className="title_task">{item.value}</p>

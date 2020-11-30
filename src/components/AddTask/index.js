@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Tasks from "../Tasks/index";
 import ExecutedTask from "../Executed/index";
+import Search from "../Search/index";
 export default class AddTask extends Component {
   constructor() {
     super();
@@ -8,6 +9,7 @@ export default class AddTask extends Component {
       inputValue: "",
       list: [],
       executed: [],
+      search: "",
     };
   }
 
@@ -46,9 +48,16 @@ export default class AddTask extends Component {
   deleteAllItem() {
     this.setState({ list: [], executed: [] });
   }
+
+  searchItems = (search) => {
+    this.setState({
+      search,
+    });
+  };
   render() {
     return (
       <div>
+        <Search onSearch={this.searchItems} />
         <input
           value={this.state.inputValue}
           onChange={(e) => this.setState({ inputValue: e.target.value })}
@@ -64,7 +73,9 @@ export default class AddTask extends Component {
           ADD
         </button>
         <Tasks
-          list={this.state.list}
+          listSearch={this.state.list.filter((list) =>
+            list.value.includes(this.state.search)
+          )}
           onDelete={(id) => this.deleteItem(id)}
           executedItem={(id) => this.executedItem(id)}
         />
