@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Tasks from "../Tasks/index";
 import ExecutedTask from "../Executed/index";
 import Search from "../Search/index";
+const LIST_URL = "http://localhost:7777/list";
+
 export default class AddTask extends Component {
   constructor() {
     super();
@@ -12,23 +14,51 @@ export default class AddTask extends Component {
       search: "",
     };
   }
-
-  addItem() {
+  async componentDidMount() {
+    await fetch(LIST_URL)
+      .then((res) => res.json())
+      .then((lists) =>
+        this.setState({
+          list: lists,
+          inputValue: "",
+        })
+      );
+  }
+  async addItem() {
     const newItem = {
       id: new Date().getTime(),
       value: this.state.inputValue,
     };
 
-    this.setState({
-      list: [...this.state.list, newItem],
-      inputValue: "",
+    await fetch(LIST_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newItem),
     });
+    await fetch(LIST_URL)
+      .then((res) => res.json())
+      .then((lists) =>
+        this.setState({
+          list: lists,
+          inputValue: "",
+        })
+      );
   }
 
-  deleteItem(id) {
-    const list = [...this.state.list];
-    const updatedList = list.filter((item) => item.id !== id);
-    this.setState({ list: updatedList });
+  async deleteItem(id) {
+    await fetch(`${LIST_URL}/${id}`, {
+      method: "DELETE",
+    });
+    await fetch(LIST_URL)
+      .then((res) => res.json())
+      .then((lists) =>
+        this.setState({
+          list: lists,
+          inputValue: "",
+        })
+      );
   }
   deleteExecuted(id) {
     const list = [...this.state.executed];
