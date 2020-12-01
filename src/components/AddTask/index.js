@@ -40,8 +40,11 @@ export default class AddTask extends Component {
     });
 
     const data = await onLoadTodo();
+    const withNotDone = data.filter((item) => item.status !== "done");
+    const withDone = data.filter((item) => item.status === "done");
+    const newData = [...withNotDone, ...withDone];
     this.setState({
-      list: data,
+      list: newData,
       inputValue: "",
     });
   }
@@ -51,9 +54,11 @@ export default class AddTask extends Component {
       method: "DELETE",
     });
     const data = await onLoadTodo();
+    const withNotDone = data.filter((item) => item.status !== "done");
+    const withDone = data.filter((item) => item.status === "done");
+    const newData = [...withNotDone, ...withDone];
     this.setState({
-      list: data,
-      inputValue: "",
+      list: newData,
     });
   }
 
@@ -78,11 +83,6 @@ export default class AddTask extends Component {
     const newData = [...withNotDone, ...withDone];
     this.setState({
       list: newData,
-    });
-  }
-  async deleteAllItem() {
-    await fetch(LIST_URL, {
-      method: "DELETE",
     });
   }
 
@@ -116,9 +116,6 @@ export default class AddTask extends Component {
           onDelete={(id) => this.deleteItem(id)}
           executedItem={(id) => this.executedItem(id)}
         />
-        <button onClick={() => this.deleteAllItem()} className="delete_all_btn">
-          Clear
-        </button>
       </div>
     );
   }

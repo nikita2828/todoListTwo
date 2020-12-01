@@ -4,6 +4,7 @@ import classNames from "classnames";
 export default class Tasks extends Component {
   render() {
     const { onDelete, executedItem, listSearch } = this.props;
+
     return (
       <div>
         <div className="task">
@@ -18,12 +19,14 @@ export default class Tasks extends Component {
                   {item.value}
                 </p>
                 <div className="checkbox_delete">
-                  <button
-                    onClick={() => executedItem(item.id)}
-                    className="delete_task"
-                  >
-                    &#10004;
-                  </button>
+                  {item.status !== "done" && (
+                    <button
+                      onClick={() => executedItem(item.id)}
+                      className="delete_task"
+                    >
+                      &#10004;
+                    </button>
+                  )}
                   <button
                     onClick={() => onDelete(item.id)}
                     className="delete_task"
