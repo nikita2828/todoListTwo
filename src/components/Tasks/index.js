@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import classNames from "classnames";
 
 export default class Tasks extends Component {
   render() {
@@ -9,7 +10,13 @@ export default class Tasks extends Component {
           {listSearch.map((item) => {
             return (
               <div key={item.id}>
-                <p className="title_task">{item.value}</p>
+                <p
+                  className={classNames("title_task", {
+                    executed_task: item.status === "done",
+                  })}
+                >
+                  {item.value}
+                </p>
                 <div className="checkbox_delete">
                   <button
                     onClick={() => executedItem(item.id)}
@@ -24,7 +31,11 @@ export default class Tasks extends Component {
                     &#10008;
                   </button>
                 </div>
-                <hr className="hr" />
+                <hr
+                  className={classNames("hr", {
+                    executed_hr: item.status === "done",
+                  })}
+                />
               </div>
             );
           })}

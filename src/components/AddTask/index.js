@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Tasks from "../Tasks/index";
-import ExecutedTask from "../Executed/index";
 import Search from "../Search/index";
 const LIST_URL = "http://localhost:7777/list";
+const onLoadTodo = () => fetch(LIST_URL).then((res) => res.json());
 
 export default class AddTask extends Component {
   constructor() {
@@ -10,15 +10,17 @@ export default class AddTask extends Component {
     this.state = {
       inputValue: "",
       list: [],
-      executed: [],
       search: "",
     };
   }
 
   async componentDidMount() {
-    const onLoadTodo = await fetch(LIST_URL).then((res) => res.json());
+    const data = await onLoadTodo();
+    const withNotDone = data.filter((item) => item.status !== "done");
+    const withDone = data.filter((item) => item.status === "done");
+    const newData = [...withNotDone, ...withDone];
     this.setState({
-      list: onLoadTodo,
+      list: newData,
     });
   }
 
@@ -26,6 +28,7 @@ export default class AddTask extends Component {
     const newItem = {
       id: new Date().getTime(),
       value: this.state.inputValue,
+      status: "not done",
     };
 
     await fetch(LIST_URL, {
@@ -36,9 +39,9 @@ export default class AddTask extends Component {
       body: JSON.stringify(newItem),
     });
 
-    const onLoadTodo = await fetch(LIST_URL).then((res) => res.json());
+    const data = await onLoadTodo();
     this.setState({
-      list: onLoadTodo,
+      list: data,
       inputValue: "",
     });
   }
@@ -47,32 +50,40 @@ export default class AddTask extends Component {
     await fetch(`${LIST_URL}/${id}`, {
       method: "DELETE",
     });
-    await fetch(LIST_URL)
-      .then((res) => res.json())
-      .then((lists) =>
-        this.setState({
-          list: lists,
-          inputValue: "",
-        })
-      );
-  }
-  deleteExecuted(id) {
-    const list = [...this.state.executed];
-    const updatedList = list.filter((item) => item.id !== id);
-    this.setState({ executed: updatedList });
-  }
-  executedItem(id) {
-    const list = [...this.state.list];
-    const updatedList = list.filter((item) => item.id !== id);
-    this.setState({ list: updatedList });
-    const [aaa] = list.filter((item) => item.id === id);
-    const executed = [...this.state.executed, aaa];
+    const data = await onLoadTodo();
     this.setState({
-      executed: executed,
+      list: data,
+      inputValue: "",
     });
   }
-  deleteAllItem() {
-    this.setState({ list: [], executed: [] });
+
+  async executedItem(id) {
+    const list = [...this.state.list];
+    const [deleteItem] = list.filter((item) => item.id === id);
+    const putItem = {
+      id: deleteItem.id,
+      value: deleteItem.value,
+      status: "done",
+    };
+    await fetch(`${LIST_URL}/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(putItem),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await onLoadTodo();
+    const withNotDone = data.filter((item) => item.status !== "done");
+    const withDone = data.filter((item) => item.status === "done");
+    const newData = [...withNotDone, ...withDone];
+    this.setState({
+      list: newData,
+    });
+  }
+  async deleteAllItem() {
+    await fetch(LIST_URL, {
+      method: "DELETE",
+    });
   }
 
   searchItems = (search) => {
@@ -104,10 +115,6 @@ export default class AddTask extends Component {
           )}
           onDelete={(id) => this.deleteItem(id)}
           executedItem={(id) => this.executedItem(id)}
-        />
-        <ExecutedTask
-          executed={this.state.executed}
-          onDelete={(id) => this.deleteExecuted(id)}
         />
         <button onClick={() => this.deleteAllItem()} className="delete_all_btn">
           Clear
