@@ -1,91 +1,46 @@
 * {
   box-sizing: border-box;
 }
-.wrapperApp {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+.todo_wrapper,
+.search_wrapper,
+.tasks {
+  margin-left: 100px;
 }
-
-.search {
-  width: 500px;
+.input_search,
+.input_todo {
+  width: 400px;
   height: 50px;
-  border-radius: 50px;
-  font-size: 35px;
-  outline: none;
-  border: 3px solid #0000ff;
-  background-color: #0000ff78;
-  color: #ffffff;
-  margin-bottom: 10px;
-  padding-left: 20px;
-}
-
-.search:focus {
-  background-color: #0000ff;
-}
-
-.add_task_button {
-  position: absolute;
-  margin-left: -80px;
-  border: none;
-  outline: none;
-  background-color: transparent;
   font-size: 30px;
-  height: 50px;
-  color: #ffffff;
-  cursor: pointer;
+  padding-left: 10px;
+  margin: 10px 0 0 0;
 }
-.add_task_button:active {
-  color: #0000ff;
+.btn_add_task {
+  position: relative;
+  left: -100px;
+  top: -10px;
 }
 .task {
-  width: 500px;
-}
-.title_task {
-  display: inline;
-  font-size: 30px;
-  padding-left: 20px;
-  color: #0000ff;
-}
-.executed_task {
-  color: rgba(128, 128, 128, 0.479);
-}
-.hr {
-  border: 1px solid #0000ff;
-  margin-top: 15px;
-}
-.executed_hr {
-  border: 1px solid rgba(128, 128, 128, 0.479);
-}
-.checkbox_delete {
-  display: inline;
-  float: right;
-}
-.delete_task {
-  background-color: #0000ff78;
-  border: none;
-  outline: none;
-  width: 40px;
+  border: 1px solid black;
+  width: 400px;
   height: 40px;
-  border-radius: 10px;
-  font-size: 20px;
-  cursor: pointer;
-  margin-left: 5px;
+  margin-top: 3px;
 }
-.delete_task:active {
-  background-color: #0000ff;
+.task_item {
+  display: inline;
+  font-size: 25px;
+  padding-left: 10px;
 }
-.delete_all_btn {
-  cursor: pointer;
-  font-size: 20px;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  color: #0000ff78;
+.btn_delete_task,
+.btn_done_task {
   float: right;
 }
-.delete_all_btn:active {
-  color: #0000ff;
+.done_task {
+  color: rgba(117, 116, 116, 0.582);
+  text-decoration: line-through;
+}
+.done_wrapper {
+  border: 1px solid rgba(117, 116, 116, 0.582);
+}
+.btn_done_click {
+  display: none;
 }

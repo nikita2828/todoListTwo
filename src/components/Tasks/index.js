@@ -1,48 +1,62 @@
 import React, { Component } from "react";
+import API from "../utils/index";
 import classNames from "classnames";
-
 export default class Tasks extends Component {
-  render() {
-    const { onDelete, executedItem, listSearch } = this.props;
+  async deleteTask(id) {
+    await API.deleteTask(id);
+    const data = await API.getTask();
+    this.props.renderAfterDelete(data);
+  }
 
+  async doneTask(task) {
+    const changeTask = {
+      id: task.id,
+      todoValue: task.todoValue,
+      status: "done",
+    };
+    await API.changeTask(changeTask);
+    const data = await API.getTask();
+    this.props.renderAfterDone(data);
+  }
+  render() {
     return (
-      <div>
-        <div className="task">
-          {listSearch.map((item) => {
-            return (
-              <div key={item.id}>
-                <p
-                  className={classNames("title_task", {
-                    executed_task: item.status === "done",
-                  })}
-                >
-                  {item.value}
-                </p>
-                <div className="checkbox_delete">
-                  {item.status !== "done" && (
-                    <button
-                      onClick={() => executedItem(item.id)}
-                      className="delete_task"
-                    >
-                      &#10004;
-                    </button>
-                  )}
-                  <button
-                    onClick={() => onDelete(item.id)}
-                    className="delete_task"
-                  >
-                    &#10008;
-                  </button>
-                </div>
-                <hr
-                  className={classNames("hr", {
-                    executed_hr: item.status === "done",
-                  })}
-                />
-              </div>
-            );
-          })}
-        </div>
+      <div className="tasks">
+        {this.props.search.map((task) => {
+          return (
+            <div
+              key={task.id}
+              className={classNames("task", {
+                done_wrapper: task.status === "done",
+              })}
+            >
+              <p
+                className={classNames("task_item", {
+                  done_task: task.status === "done",
+                })}
+              >
+                {task.todoValue}
+              </p>
+              <button
+                onClick={() => {
+                  this.deleteTask(task.id);
+                }}
+                className="btn btn-danger btn_delete_task"
+              >
+                delete
+              </button>
+              <button
+                onClick={() => {
+                  this.doneTask(task);
+                }}
+                className={classNames("btn btn-primary btn_done_task", {
+                  btn_done_click: task.status === "done",
+                })}
+              >
+                done
+              </button>
+            </div>
+          );
+        })}
       </div>
     );
   }
