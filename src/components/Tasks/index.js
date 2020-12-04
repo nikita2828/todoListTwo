@@ -1,27 +1,25 @@
 import React, { Component } from "react";
-import API from "../utils/index";
+import API from "../../utils/api";
 import classNames from "classnames";
 export default class Tasks extends Component {
   async deleteTask(id) {
     await API.deleteTask(id);
     const data = await API.getTask();
-    this.props.renderAfterDelete(data);
+    this.props.renderTasks(data);
   }
 
   async doneTask(task) {
-    const changeTask = {
-      id: task.id,
-      todoValue: task.todoValue,
+    await API.changeTask({
+      ...task,
       status: "done",
-    };
-    await API.changeTask(changeTask);
+    });
     const data = await API.getTask();
-    this.props.renderAfterDone(data);
+    this.props.renderTasks(data);
   }
   render() {
     return (
       <div className="tasks">
-        {this.props.search.map((task) => {
+        {this.props.search.reverse().map((task) => {
           return (
             <div
               key={task.id}

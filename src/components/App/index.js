@@ -1,8 +1,8 @@
 import { Component } from "react";
 import Search from "../Search/index";
-import Todo from "../Todo/index";
+import CreateTodo from "../createTodo/index";
 import Tasks from "../Tasks/index";
-import API from "../utils/index";
+import API from "../../utils/api";
 
 export default class App extends Component {
   constructor() {
@@ -17,7 +17,7 @@ export default class App extends Component {
       (task) => task.status === "inProgres"
     );
     const statusDoneTask = data.filter((task) => task.status === "done");
-    const statusFilter = [...statusInProgressTask, ...statusDoneTask];
+    const statusFilter = [...statusDoneTask, ...statusInProgressTask];
     this.setState({
       tasks: statusFilter,
     });
@@ -26,30 +26,23 @@ export default class App extends Component {
     const data = await API.getTask();
     this.getStatusFilter(data);
   }
-  renderAfterAdd = (data) => {
-    this.getStatusFilter(data);
-  };
-  renderAfterDelete = (data) => {
-    this.getStatusFilter(data);
-  };
-  search = async (search) => {
+  searchHandler = async (search) => {
     this.setState({
       searchValue: search,
     });
   };
-  renderAfterDone = (data) => {
+  renderTasks = (data) => {
     this.getStatusFilter(data);
   };
   render() {
     return (
       <>
-        <Search search={this.search} />
-        <Todo renderAfterAdd={this.renderAfterAdd} />
+        <Search searchHandler={this.searchHandler} />
+        <CreateTodo renderTasks={this.renderTasks} />
         <Tasks
-          renderAfterDone={this.renderAfterDone}
-          renderAfterDelete={this.renderAfterDelete}
+          renderTasks={this.renderTasks}
           search={this.state.tasks.filter((task) =>
-            task.todoValue.includes(this.state.searchValue)
+            task.todoValue.toLowerCase().includes(this.state.searchValue)
           )}
         />
       </>
