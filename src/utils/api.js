@@ -1,6 +1,9 @@
 const BASE_URL = " http://localhost:7777";
-
+const done = "done";
+const inProgres = "inProgres"
 const API = {
+  done,
+  inProgres,
   changeTask: (data) =>
     fetch(`${BASE_URL}/todos/${data.id}`, {
       method: "PUT",

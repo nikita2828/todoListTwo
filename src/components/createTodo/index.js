@@ -10,7 +10,7 @@ export default class CreateTodo extends Component {
   createTask = async () => {
     await API.createTask({
       todoValue: this.state.taskValue,
-      status: "inProgres",
+      status: API.inProgres,
     });
     const data = await API.getTask();
     this.props.renderTasks(data);

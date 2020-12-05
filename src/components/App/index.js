@@ -14,9 +14,9 @@ export default class App extends Component {
   }
   getStatusFilter(data) {
     const statusInProgressTask = data.filter(
-      (task) => task.status === "inProgres"
+      (task) => task.status === API.inProgres
     );
-    const statusDoneTask = data.filter((task) => task.status === "done");
+    const statusDoneTask = data.filter((task) => task.status === API.done);
     const statusFilter = [...statusDoneTask, ...statusInProgressTask];
     this.setState({
       tasks: statusFilter,
@@ -35,13 +35,14 @@ export default class App extends Component {
     this.getStatusFilter(data);
   };
   render() {
+    const {tasks} = this.state;
     return (
       <>
         <Search searchHandler={this.searchHandler} />
         <CreateTodo renderTasks={this.renderTasks} />
         <Tasks
           renderTasks={this.renderTasks}
-          search={this.state.tasks.filter((task) =>
+          tasks={tasks.filter((task) =>
             task.todoValue.toLowerCase().includes(this.state.searchValue)
           )}
         />
